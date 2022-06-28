@@ -1,20 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Bank } from './src/components/Module03/Bank';
+import { PickerSelect } from './src/components/Module03/PickerSelect';
+import { SliderComponent } from './src/components/Module03/SliderComponent';
+import SwitchComponent from './src/components/Module03/SwitchComponent';
+import AppLoading from 'expo-app-loading';
+import { useFonts } from 'expo-font';
+import { Instagram } from './src/components/Module03/Instagram';
+import ChallengeGas from './src/components/Module03/ChallengeGas';
+
+
+
+
 
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
+    'Roboto-Bold': require('./assets/fonts/Roboto-Bold.ttf'),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      {/* <PickerSelect /> */}
+      {/* <SliderComponent /> */}
+      {/* <SwitchComponent /> */}
+      {/* <Bank /> */}
+      {/* <Instagram /> */}
+      <ChallengeGas />
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
