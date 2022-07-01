@@ -9,6 +9,8 @@ import ChallengeGas from './src/components/Module03/ChallengeGas';
 import { HttpReq } from './src/components/Module04/HttpReq';
 import { CoinConverter } from './src/components/Module04/CoinConverter';
 import { Animation } from './src/components/Module04/Animated';
+import { Hooks } from './src/components/Module05/Hooks';
+import { Routes } from './src/routes';
 
 
 
@@ -32,7 +34,9 @@ export default function App() {
       {/* <ChallengeGas /> */}
       {/* <HttpReq /> */}
       {/* <CoinConverter /> */}
-      <Animation />
+      {/* <Animation /> */}
+      {/* <Hooks /> */}
+      <Routes />
     </>
   );
 }

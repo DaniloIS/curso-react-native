@@ -9,8 +9,8 @@ import { Input } from '../../../Input';
 
 import styles from './styles';
 
-const Login = () => {
-  const [login, setLogin] = useState({
+const Register = () => {
+  const [form, setForm] = useState({
     user: '',
     password: ''
   })
@@ -48,4 +48,4 @@ const Login = () => {
   )
 }
 
-export { Login };
+export { Register };

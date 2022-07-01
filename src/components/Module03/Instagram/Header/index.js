@@ -18,7 +18,7 @@ const Header = () => {
     AsyncStorage.removeItem('user')
   }
   return (
-    <View>
+    <View style={{position: 'fixed', zIndex: 1, width: '100%'}}>
       <View style={styles.header}>
         <TouchableOpacity>
           <Image style={styles.logo} source={logo} />
