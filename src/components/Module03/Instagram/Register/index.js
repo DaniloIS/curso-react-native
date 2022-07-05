@@ -7,14 +7,16 @@ import { Instagram } from '../index'
 import { Button } from '../../../Button';
 import { Input } from '../../../Input';
 
+import { createUser, setItem } from '../../../../services/firebaseConnection';
+
 import styles from './styles';
 
 const Register = () => {
   const [form, setForm] = useState({
     user: '',
+    email: '',
     password: ''
   })
-  const [loged, setLoged] = useState(false)
 
   const navigation = useNavigation();
 
@@ -23,25 +25,27 @@ const Register = () => {
   })
 
   useEffect(() => {
-    getUser()
-  }, [login])
+    
+  }, [])
 
   async function handleSubmit() {
-    if(!login.user) return
-    await AsyncStorage.setItem('user', login.user);
-    alert('Login efetuado com sucesso!')
-    setLoged(true)
-    Keyboard.dismiss();
-    navigation.navigate('home')
+    if(!form.user) return
+    createUser(form).then(res => {
+      console.log(res)
+    })
+    // setItem('users', form)
+    // Keyboard.dismiss();
+    // navigation.navigate('home')
   }
 
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>LOGIN</Text>
+      <Text style={styles.headerText}>Cadastro</Text>
       <View style={styles.form}>
-        <Input placeholder='Usuário' value={login.user} onChange={e => setLogin({...login, user: e})} />
-        <Input placeholder='Senha' value={login.password} onChange={e => setLogin({...login, password: e})} type='password' />
+        <Input placeholder='Usuário' value={form.user} onChange={e => setForm({...form, user: e})} />
+        <Input placeholder='exemplo@email.com' value={form.email} onChange={e => setForm({...form, email: e})} />
+        <Input placeholder='Senha' value={form.password} onChange={e => setForm({...form, password: e})} type='password' />
         <Button label='Entrar' onClick={handleSubmit} />
       </View>
     </View>

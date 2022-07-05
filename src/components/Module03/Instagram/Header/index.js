@@ -1,18 +1,22 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { useState } from 'react';
-import { View, Image, TouchableOpacity, Modal } from 'react-native';
+import { View, Image, TouchableOpacity, Modal, Text } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 
 import logo from '../../../../assets/images/logo.png'
 import send from '../../../../assets/images/send.png'
 import { Login } from '../Login';
+import { Register } from '../Register';
 
 import styles from './styles';
 
 const Header = () => {
   const [show, setShow] = useState(false)
+  const [model, setModel] = useState('login')
 
   const handleModal = () => setShow(!show)
+
+  const mod = () => model === 'login' ? setModel('register') : setModel('login')
 
   function logoff() {
     AsyncStorage.removeItem('user')
@@ -36,7 +40,12 @@ const Header = () => {
               </TouchableOpacity>
             </View>
             <View  style={styles.modalContent}>
-              <Login />
+              { model === 'login'?
+                <Login />
+                :
+                <Register />
+              }
+              <TouchableOpacity onPress={mod}><Text>{model === 'login'? 'Cadastrar' : 'Entrar'}</Text></TouchableOpacity>
             </View>
           </View>
         </View>

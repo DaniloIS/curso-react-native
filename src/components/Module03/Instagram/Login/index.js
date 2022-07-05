@@ -7,6 +7,8 @@ import { Instagram } from '../index'
 import { Button } from '../../../Button';
 import { Input } from '../../../Input';
 
+import { loginUser } from '../../../../services/firebaseConnection';
+
 import styles from './styles';
 
 const Login = () => {
@@ -28,11 +30,14 @@ const Login = () => {
 
   async function handleSubmit() {
     if(!login.user) return
-    await AsyncStorage.setItem('user', login.user);
-    alert('Login efetuado com sucesso!')
-    setLoged(true)
-    Keyboard.dismiss();
-    navigation.navigate('home')
+    loginUser(login.user, login.password).then(res => {
+      console.log(res)
+    })
+    // await AsyncStorage.setItem('user', login.user);
+    // alert('Login efetuado com sucesso!')
+    // setLoged(true)
+    // Keyboard.dismiss();
+    // navigation.navigate('home')
   }
 
 

@@ -1,9 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getFirestore, collection, getDocs, addDoc, docRef } from 'firebase/firestore/lite';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 
-import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore/lite';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -27,12 +28,46 @@ const db = getFirestore(app);
 async function getItems(col) {
   const items = collection(db, col);
   const itemsSnapshot = await getDocs(items)
-  return itemsSnapshot.docs.map(doc => doc.data())
+  return itemsSnapshot.docs.map(doc => ({
+    key: doc._key.path.segments.pop(),
+    user: doc.data().user,
+    email: doc.data().email
+  }))
 }
 
 async function setItem(col, obj) {
   const docRef = await addDoc(collection(db, col), obj);
   return docRef.id
 }
+const auth = getAuth();
+async function loginUser(email, password) {
+  createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in
+    const user = userCredential.user;
+    console.log(userCredential.user.uid)
+    return userCredential
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    return errorMessage
+  });
+}
 
-export { getItems }
+async function createUser(obj) {
+  await createUserWithEmailAndPassword(auth, obj.email, obj.password)
+  .then((userCredential) => {
+    // Signed in
+    console.log(userCredential.user.uid)
+    const docRef = addDoc(collection(db, 'users'), obj).docRef(userCredential.user.uid);
+    return docRef.id
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    return errorMessage
+  });
+}
+
+export { getItems, setItem, loginUser, createUser }
